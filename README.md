@@ -1,6 +1,9 @@
 # typed-everywhere
 Runtime type checking and not only for function arguments and class variables but even for the ordinary local and global variables!
 
+# Installation
+```pip install typed-everywhere```
+
 # How To Use
 We have a proxy class:
 
