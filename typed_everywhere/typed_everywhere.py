@@ -111,4 +111,5 @@ def typed_lookup(origin_type, args, extras):
     return None
 
 
-typeguard.checker_lookup_functions.append(typed_lookup)  
+typeguard.checker_lookup_functions.append(typed_lookup)
+typeguard.config.collection_check_strategy = typeguard.CollectionCheckStrategy.ALL_ITEMS
