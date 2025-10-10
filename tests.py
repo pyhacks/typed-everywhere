@@ -3,6 +3,9 @@ from typed_everywhere import Typed
 import typed_everywhere
 
 
+x = typed_everywhere.Typed(456)
+
+
 class A:
     a = Typed(10)
 
@@ -37,8 +40,9 @@ def test3():
 @typeguard.typechecked
 def test4(a: Typed[list[int]]):
     pass
-
+    
 def main():
+    print(x)
     test1()
     print()
     test2()
