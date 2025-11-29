@@ -7,13 +7,13 @@ Runtime type checking and not only for function arguments and class variables bu
 # How To Use
 We have a proxy class:
 
-_class_ **Typed**(wrapped)
+_class_ typed_everywhere.**Typed**(wrapped)
 
 This class inherits a variant of [ObjectProxy](https://wrapt.readthedocs.io/en/master/wrappers.html#object-proxy) from wrapt.
 Along with all augmented assignment operators, this class also overloads the normal assignment operator (=) thanks to [assign-overload](https://github.com/pyhacks/assign-overload).
 _wrapped_ can be any object and the resulting instance of this class will act like _wrapped_ in every way.
 If you use this class, you need to call typed_everywhere.**patch_and_reload_module**(). 
-typed_everywhere monkeypatches assign_overload.patch_and_reload_module() to make it possible to define global _Typed_ objects. Since it is monkeypatched you can also access this function from assign_overload module.
+You can also access this function from assign_overload module.
 You can find documentation about this function in [assign-overload](https://github.com/pyhacks/assign-overload).
 Usage example:
 ```python
