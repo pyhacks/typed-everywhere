@@ -1,100 +1,133 @@
 import typing
 import typeguard
-from . import wrapt
+import wrapt
 
 
 class Typed(wrapt.AutoObjectProxy, typing.Generic[typing.TypeVar("T")]):
+    class_id = "typed_everywhere.Typed"
+
+    def __object_proxy__(self, wrapped):
+        return Typed(wrapped)
+
     def __init__(self, wrapped):
-        wrapt.AutoObjectProxy.__init__(self, wrapped)
+        super().__init__(wrapped)
         self._self_type = type(wrapped)
         
     def _assign_(self, value, *annotation):
+        if hasattr(value, "class_id") and value.class_id == "typed_everywhere.Typed":
+            value = value.__wrapped__        
         self.__wrapped__ = value
         if not issubclass(type(value), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value)}")
         return self
 
     def __iadd__(self, other):
-        value = wrapt.AutoObjectProxy.__iadd__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__
+        value = super().__iadd__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __isub__(self, other):
-        value = wrapt.AutoObjectProxy.__isub__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__                        
+        value = super().__isub__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __imul__(self, other):
-        value = wrapt.AutoObjectProxy.__imul__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__                        
+        value = super().__imul__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __itruediv__(self, other):
-        value = wrapt.AutoObjectProxy.__itruediv__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__                        
+        value = super().__itruediv__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __ifloordiv__(self, other):
-        value = wrapt.AutoObjectProxy.__ifloordiv__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__                        
+        value = super().__ifloordiv__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __imod__(self, other):
-        value = wrapt.AutoObjectProxy.__imod__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__                        
+        value = super().__imod__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __ipow__(self, other):
-        value = wrapt.AutoObjectProxy.__ipow__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__                        
+        value = super().__ipow__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __ilshift__(self, other):
-        value = wrapt.AutoObjectProxy.__ilshift__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__                        
+        value = super().__ilshift__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __irshift__(self, other):
-        value = wrapt.AutoObjectProxy.__irshift__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__                        
+        value = super().__irshift__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __iand__(self, other):
-        value = wrapt.AutoObjectProxy.__iand__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__                        
+        value = super().__iand__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __ixor__(self, other):
-        value = wrapt.AutoObjectProxy.__ixor__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__                        
+        value = super().__ixor__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __ior__(self, other):
-        value = wrapt.AutoObjectProxy.__ior__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__                        
+        value = super().__ior__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
     def __imatmul__(self, other):
-        value = wrapt.AutoObjectProxy.__imatmul__(self, other)
+        if hasattr(other, "class_id") and other.class_id == "typed_everywhere.Typed":
+            other = other.__wrapped__           
+        value = super().__imatmul__(other)
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
 
 
 def check_typed_value(value, origin_type, args, memo):
-    if type(value).__name__ != "Typed":
+    if not issubclass(type(value), Typed):
         raise typeguard.TypeCheckError("is not a Typed instance")
     if not args:
         return
