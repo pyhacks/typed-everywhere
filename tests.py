@@ -19,7 +19,7 @@ def test1():
     global b
     print("here")
     b = c = d = Typed(10)
-    b = 20
+    b += Typed(20)
     print(b)
     print(type(b))
 
