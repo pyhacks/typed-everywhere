@@ -126,6 +126,43 @@ class Typed(wrapt.AutoObjectProxy, typing.Generic[typing.TypeVar("T")]):
         return value
 
 
+class Descriptor:
+    def __init__(self, value, name):
+        self.value = value
+        self.name = name
+        self.values = {}
+
+    def __get__(self, instance, owner = None):
+        if instance is not None:
+            if instance in self.values:
+                return self.values[instance]
+            else:
+                return self.value.__get__(instance, owner = owner)
+        else:
+            outer_self = self
+            orig_assign = type(self.value)._assign_
+            def _assign_(self, value, *annotation):
+                orig_assign(self, value, *annotation)
+                type(self)._assign_ = orig_assign
+                return owner.__dict__[outer_self.name]
+            if type(self.value)._assign_.__code__ != _assign_.__code__:
+                type(self.value)._assign_ = _assign_
+            return self.value
+
+    def __set__(self, instance, value):
+        self.values[instance] = value
+
+    def __delete__(self, instance):
+        try:
+            del self.values[instance]
+        except KeyError:
+            raise AttributeError(f"'{type(instance).__name__}' object has no attribute '{self.name}'")
+
+
+def typed_method(func):
+    return Typed(Descriptor(Typed(func), func.__code__.co_name))
+
+
 def check_typed_value(value, origin_type, args, memo):
     if not issubclass(type(value), Typed):
         raise typeguard.TypeCheckError("is not a Typed instance")
