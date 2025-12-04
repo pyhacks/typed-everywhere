@@ -9,6 +9,8 @@ We have a proxy class:
 
 _class_ typed_everywhere.**Typed**(wrapped)
 
+_class_ @typed_everywhere.**Typed**(wrapped)
+
 This class inherits a variant of [ObjectProxy](https://wrapt.readthedocs.io/en/master/wrappers.html#object-proxy) from wrapt.
 Along with all augmented assignment operators, this class also overloads the normal assignment operator (=) thanks to [assign-overload](https://github.com/pyhacks/assign-overload).
 _wrapped_ can be any object and the resulting instance of this class will act like _wrapped_ in every way.
@@ -73,3 +75,7 @@ def main():
 if typed_everywhere.patch_and_reload_module():
     main()
 ```
+
+@typed_everywhere.**typed_method**(func)
+
+Use this decorator for functions inside a class. Use _@Typed_ for functions defined outside any class.
