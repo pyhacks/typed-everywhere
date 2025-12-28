@@ -12,6 +12,14 @@ class Typed(wrapt.AutoObjectProxy, typing.Generic[typing.TypeVar("T")]):
     def __init__(self, wrapped):
         super().__init__(wrapped)
         self._self_type = type(wrapped)
+        if hasattr(type(wrapped), "__get__"):
+            def __get__(self, instance, owner = None):
+                value = self.__wrapped__.__get__(instance, owner)
+                if value is self.__wrapped__:
+                    return self
+                else:
+                    return value
+            type(self).__get__ = __get__            
         
     def _assign_(self, value, *annotation):
         if hasattr(value, "class_id") and value.class_id == "typed_everywhere.Typed":
@@ -124,43 +132,6 @@ class Typed(wrapt.AutoObjectProxy, typing.Generic[typing.TypeVar("T")]):
         if not issubclass(type(value.__wrapped__), self._self_type):
             raise TypeError(f"Expected an instance of {self._self_type} but received an instance of {type(value.__wrapped__)}")        
         return value
-
-
-class Descriptor:
-    def __init__(self, value, name):
-        self.value = value
-        self.name = name
-        self.values = {}
-
-    def __get__(self, instance, owner = None):
-        if instance is not None:
-            if instance in self.values:
-                return self.values[instance]
-            else:
-                return self.value.__get__(instance, owner = owner)
-        else:
-            outer_self = self
-            orig_assign = type(self.value)._assign_
-            def _assign_(self, value, *annotation):
-                orig_assign(self, value, *annotation)
-                type(self)._assign_ = orig_assign
-                return owner.__dict__[outer_self.name]
-            if type(self.value)._assign_.__code__ != _assign_.__code__:
-                type(self.value)._assign_ = _assign_
-            return self.value
-
-    def __set__(self, instance, value):
-        self.values[instance] = value
-
-    def __delete__(self, instance):
-        try:
-            del self.values[instance]
-        except KeyError:
-            raise AttributeError(f"'{type(instance).__name__}' object has no attribute '{self.name}'")
-
-
-def typed_method(func):
-    return Typed(Descriptor(Typed(func), func.__code__.co_name))
 
 
 def check_typed_value(value, origin_type, args, memo):

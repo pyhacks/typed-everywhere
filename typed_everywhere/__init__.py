@@ -1,5 +1,5 @@
 import assign_overload
-from .typed_everywhere import Typed, typed_method
+from .typed_everywhere import Typed
 
 def __getattr__(name):
     if name == "patch_and_reload_module":
