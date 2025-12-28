@@ -75,7 +75,3 @@ def main():
 if typed_everywhere.patch_and_reload_module():
     main()
 ```
-
-@typed_everywhere.**typed_method**(func)
-
-Use this decorator for functions inside a class. Use _@Typed_ for functions defined outside any class.
