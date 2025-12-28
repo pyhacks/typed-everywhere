@@ -28,7 +28,7 @@ def func2(self):
       
 
 class D:
-    @typed_method
+    @Typed
     def func(self):
         print("hello1")
 
